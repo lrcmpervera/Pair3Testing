@@ -1,0 +1,39 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Grazielle
+ */
+public class MotorPH {
+
+    public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput)
+       Scanner TimeInBox = new Scanner(System.in); // Create a Scanner Object and this one is for the Time-In Entry
+       System.out.println("Enter Time In Below:");
+       
+       String TimeInInput = TimeInBox.nextLine(); // This will read the user input for Time-In
+       
+       Scanner TimeOutBox = new Scanner(System.in); // Create another Scanner Object but this one is for the Time-Out Entry
+       System.out.println("Enter Time Out Below:");
+       
+       String TimeOutInput = TimeOutBox.nextLine(); // This will read the user input for Time-Out
+     
+       
+       SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("HH:mm"); // I used this package to parse the time period in the format HH:MM. 
+       
+       Date TimeIn = simpleDateFormat.parse(TimeInInput); // The input the scanner will read for the "Time-In" will be redirected here.
+       Date TimeOut = simpleDateFormat.parse(TimeOutInput); // The input the scanner will read for the "Time-Out" will be redirected here.
+       
+       long differenceInMilliSeconds // seconds of hours can be a big number so I just used "long", better safe than sorry.
+               = Math.abs(TimeOut.getTime() - TimeIn.getTime()); // Math.abs is to get an "absolute" value so nothing goes wrong and .getTime() just calculates the milliseconds of a time since January 1, 1970, 00:00;00 GTM.
+               // Basically we just converted the time-in and time-out to milliseconds then subtracted them.
+       
+       long differenceInHours
+               = (differenceInMilliSeconds / (60 * 60 * 1000)) % 24; // the difference of the time-in and time-out is just re-calculated but now in hours
+      
+       
+        System.out.println("Total Hours Worked is " + differenceInHours + " hours "); // The end result will be shown here.
+        
+    }
+}
