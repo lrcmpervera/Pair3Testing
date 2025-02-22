@@ -1,0 +1,95 @@
+package com.mycompany.motorphcalculation;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+/**
+ *
+ * @author CM
+ */
+
+public class MotorPH {
+    public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        
+        String[] days = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5"};
+        long totalMinutesWorked = 0;
+        
+        for (String day : days) {
+            System.out.println("Enter " + day + " Time-In (HH:MM):");
+            Date timeIn = timeFormat.parse(validateTimeInput(scanner));
+
+            System.out.println("Enter " + day + " Time-Out (HH:MM):");
+            Date timeOut = timeFormat.parse(validateTimeInput(scanner));
+
+            long diffMinutes = (timeOut.getTime() - timeIn.getTime()) / (60 * 1000);
+            totalMinutesWorked += diffMinutes;
+            
+            System.out.println(day + " Hours Worked: " + diffMinutes / 60 + " hours " + (diffMinutes % 60) + " minutes\n");
+        }
+        
+        System.out.println("Enter Hourly Rate (No commas):");
+        double hourlyRate = scanner.nextDouble();
+
+        double dailySalary = (totalMinutesWorked / 5.0) / 60 * hourlyRate;
+        double weeklySalary = (totalMinutesWorked / 60.0) * hourlyRate;
+        double monthlySalary = weeklySalary * 4;
+        
+        // Government Contributions
+        System.out.println("Enter Basic Monthly Salary (No commas):");
+        double basicSalary = scanner.nextDouble();
+        
+        double philHealth = (basicSalary * 0.05) / 2;
+        double sss = getValidatedInput(scanner, "Enter SSS Monthly Contribution:");
+        double pagIbig = 200;
+        
+        double totalMonthlyDeductions = philHealth + sss + pagIbig;
+        double totalWeeklyDeductions = totalMonthlyDeductions / 4;
+        double totalDailyDeductions = totalWeeklyDeductions / 5;
+        
+        // Output Breakdown
+        System.out.println("\n[Salary Breakdown]");
+        System.out.printf("Daily Salary: %.2f Pesos\n", dailySalary);
+        System.out.printf("Weekly Salary: %.2f Pesos\n", weeklySalary);
+        System.out.printf("Monthly Salary: %.2f Pesos\n", monthlySalary);
+
+        System.out.println("\n[Government Deductions]");
+        System.out.printf("PhilHealth: Monthly: %.2f | Weekly: %.2f | Daily: %.2f Pesos\n", philHealth, philHealth / 4, philHealth / 20);
+        System.out.printf("SSS: Monthly: %.2f | Weekly: %.2f | Daily: %.2f Pesos\n", sss, sss / 4, sss / 20);
+        System.out.printf("Pag-Ibig: Monthly: %.2f | Weekly: %.2f | Daily: %.2f Pesos\n", pagIbig, pagIbig / 4, pagIbig / 20);
+        
+        System.out.println("\n[Net Salary Calculation]");
+        System.out.printf("Net Daily Salary: %.2f Pesos\n", dailySalary - totalDailyDeductions);
+        System.out.printf("Net Weekly Salary: %.2f Pesos\n", weeklySalary - totalWeeklyDeductions);
+        System.out.printf("Net Monthly Salary: %.2f Pesos\n", monthlySalary - totalMonthlyDeductions);
+    }
+    
+    private static String validateTimeInput(Scanner scanner) {
+        String input;
+        while (true) {
+            input = scanner.next();
+            if (input.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+                return input;
+            } else {
+                System.out.println("Invalid format! Please enter time in HH:MM format:");
+            }
+        }
+    }
+    
+    private static double getValidatedInput(Scanner scanner, String message) {
+        double input;
+        while (true) {
+            System.out.println(message);
+            if (scanner.hasNextDouble()) {
+                input = scanner.nextDouble();
+                break;
+            } else {
+                System.out.println("Invalid input! Please enter a numeric value:");
+                scanner.next();
+            }
+        }
+        return input;
+    }
+}
