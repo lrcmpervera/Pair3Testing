@@ -74,7 +74,7 @@ public class MotorPH {
        
        double SSSDaily = SSSInput / 20; // employee share divided to 20 days.
        
-       double PagIbig = (BasicSalaryInput * 0.02); // according to google 2% of salary is paid by employee and is matched by the employer; not shared.
+       double PagIbig = 200; // according to google fixed 200 pesos.
        double PagIbigDaily = PagIbig / 20; // 2% of basic salary then divided to 20 days.
        
        double MonthlyGovernmentDeductions = PhilHealth + SSSInput + PagIbig;
