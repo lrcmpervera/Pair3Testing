@@ -13,10 +13,12 @@ public class MotorPH {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        
+        // Instead of separating sections for each day, let us use string array to layout the workdays
         String[] days = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5"};
         long totalMinutesWorked = 0;
         
+        //This is where the "days" come in handy. Time in and Time out plus the term "day" to get inputs for time.
+        //Calculation for hours worked
         for (String day : days) {
             System.out.println("Enter " + day + " Time-In (HH:MM):");
             Date timeIn = timeFormat.parse(validateTimeInput(scanner));
@@ -29,7 +31,7 @@ public class MotorPH {
             
             System.out.println(day + " Hours Worked: " + diffMinutes / 60 + " hours " + (diffMinutes % 60) + " minutes\n");
         }
-        
+        //additional calculations ooohhh I'm lost inside your world, you got that symphony
         System.out.println("Enter Hourly Rate (No commas):");
         double hourlyRate = scanner.nextDouble();
 
@@ -37,7 +39,7 @@ public class MotorPH {
         double weeklySalary = (totalMinutesWorked / 60.0) * hourlyRate;
         double monthlySalary = weeklySalary * 4;
         
-        // Government Contributions
+        // Government contributionas na kinukurakot lang naman! Haynako
         System.out.println("Enter Basic Monthly Salary (No commas):");
         double basicSalary = scanner.nextDouble();
         
@@ -49,7 +51,7 @@ public class MotorPH {
         double totalWeeklyDeductions = totalMonthlyDeductions / 4;
         double totalDailyDeductions = totalWeeklyDeductions / 5;
         
-        // Output Breakdown
+        // Output Breakdown parang ako magbbreakdown na rin huhuhu
         System.out.println("\n[Salary Breakdown]");
         System.out.printf("Daily Salary: %.2f Pesos\n", dailySalary);
         System.out.printf("Weekly Salary: %.2f Pesos\n", weeklySalary);
@@ -66,6 +68,7 @@ public class MotorPH {
         System.out.printf("Net Monthly Salary: %.2f Pesos\n", monthlySalary - totalMonthlyDeductions);
     }
     
+    // validation is important as it is the key para sumakses
     private static String validateTimeInput(Scanner scanner) {
         String input;
         while (true) {
