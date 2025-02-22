@@ -1,0 +1,97 @@
+package com.mycompany.motorphcalculation;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+/**
+ *
+ * @author CM
+ */
+
+
+public class MotorPH {
+    
+    public static void main(String[] args) throws Exception {
+        
+        //Time in and Time out simplified code
+        try (Scanner scanner = new Scanner(System.in)) {
+            String timePattern = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+            // This allows user to input their time in and time out to use for calculation
+            String TimeInInput = getValidatedInput(scanner, "Enter Time-In (HH:MM): ", timePattern, "Invalid input. Please follow HH:MM format.");
+            String TimeOutInput = getValidatedInput(scanner, "Enter Time-Out (HH:MM): ", timePattern, "Invalid input. Please follow HH:MM format.");
+            
+            // Used getValidatedInput() and getValidatedDoubleInput to make the function cleaner and shorter
+            double HourlyRateInput = getValidatedDoubleInput(scanner, "Enter Hourly Rate (no commas): ");
+            double BasicSalaryInput = getValidatedDoubleInput(scanner, "Enter Basic Salary (no commas): ");
+            double SSSInput = getValidatedDoubleInput(scanner, "Enter SSS Contribution (no commas): ");
+            
+
+            // Transforms time input to date objects
+            SimpleDateFormat TimeFormat = new SimpleDateFormat("HH:MM");
+            Date TimeIn = TimeFormat.parse(TimeInInput);
+            Date TimeOut = TimeFormat.parse(TimeOutInput);
+            
+
+            // This section calculates time differences
+            long differenceInMilliSeconds = TimeOut.getTime() - TimeIn.getTime();
+            if (differenceInMilliSeconds < 0) {
+                differenceInMilliSeconds += 24 * 60 * 60 * 1000; // Handle cases where Time-Out is past midnight
+            }   long differenceInHours = differenceInMilliSeconds / (60 * 60 * 1000);
+            long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
+            
+
+            // This section computes the salary of the employees
+            double HourlyRateSalary = differenceInHours * HourlyRateInput;
+            double HourlyRateSalaryWithMinutes = HourlyRateSalary + ((HourlyRateInput / 60) * differenceInMinutes);
+            
+
+            // This section computes all deduction
+            double PhilHealth = (BasicSalaryInput * 0.05) / 2;
+            double PhilHealthDaily = PhilHealth / 20;
+            double SSSDaily = SSSInput / 20;
+            double PagIbig = 200;
+            double PagIbigDaily = PagIbig / 20;
+            double MonthlyGovernmentDeductions = PhilHealth + SSSInput + PagIbig;
+            double DailyGovernmentDeductions = PhilHealthDaily + SSSDaily + PagIbigDaily;
+            
+
+            // This section displays the payslip of the employee
+            System.out.println("\n[Daily Payslip]");
+            System.out.printf("Total Hours Worked: %d hours %d minutes\n", differenceInHours, differenceInMinutes);
+            System.out.printf("Salary Based on Hours Worked: %.2f Pesos\n", HourlyRateSalaryWithMinutes);
+            System.out.println("\nGovernment Contributions:");
+            System.out.printf("PhilHealth - Monthly: %.2f Pesos, Daily: %.2f Pesos\n", PhilHealth, PhilHealthDaily);
+            System.out.printf("SSS - Monthly: %.2f Pesos, Daily: %.2f Pesos\n", SSSInput, SSSDaily);
+            System.out.printf("Pag-Ibig - Monthly: %.2f Pesos, Daily: %.2f Pesos\n", PagIbig, PagIbigDaily);
+            System.out.println("\nTotal Government Deductions:");
+            System.out.printf("Monthly: %.2f Pesos, Daily: %.2f Pesos\n", MonthlyGovernmentDeductions, DailyGovernmentDeductions);
+            System.out.printf("Daily Net Salary: %.2f Pesos\n", HourlyRateSalaryWithMinutes - DailyGovernmentDeductions);
+            // Close the scanner
+        }
+    }
+
+    // validate user input for single format
+    private static String getValidatedInput(Scanner scanner, String prompt, String pattern, String errorMessage) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            if (input.matches(pattern)) {
+                return input;
+            }
+            System.out.println(errorMessage);
+        }
+    }
+
+    // validate user input for double format
+    private static double getValidatedDoubleInput(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            if (input.matches("\\d+(\\.\\d+)?")) {
+                return Double.parseDouble(input);
+            }
+            System.out.println("Invalid input. Please enter a valid number without commas.");
+        }
+    }
+}
