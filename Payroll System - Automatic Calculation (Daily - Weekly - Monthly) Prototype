@@ -8,7 +8,7 @@ import java.util.Scanner;
  *
  * @author CM
  */
-
+// This is a prototype. Please don't expect that it's perfect. Walang perfect! Kidding. We're working on improving this.
 public class MotorPH {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
