@@ -1,0 +1,134 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Grazielle
+ */
+public class Payroll_System_Weekly_Code {
+
+     public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput).
+       
+       //Time in and Time out simplified code
+        try (Scanner Answer = new Scanner(System.in)) {
+            String timePattern = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+            // This allows user to input their time in and time out to use for calculation
+            String TimeInInput1 = getValidatedInput(Answer, "Enter Day 1 Time-In (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeOutInput1 = getValidatedInput(Answer, "Enter Day 1 Time-Out (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeInInput2 = getValidatedInput(Answer, "Enter Day 2 Time-In (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeOutInput2 = getValidatedInput(Answer, "Enter Day 2 Time-Out (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeInInput3 = getValidatedInput(Answer, "Enter Day 3 Time-In (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeOutInput3 = getValidatedInput(Answer, "Enter Day 3 Time-Out (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeInInput4 = getValidatedInput(Answer, "Enter Day 4 Time-In (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeOutInput4 = getValidatedInput(Answer, "Enter Day 4 Time-Out (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeInInput5 = getValidatedInput(Answer, "Enter Day 5 Time-In (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            String TimeOutInput5 = getValidatedInput(Answer, "Enter Day 5 Time-Out (HH:MM): ", timePattern, "<<Invalid input. Please follow HH:MM format.>>");
+            
+             // Used getValidatedInput() and getValidatedDoubleInput to make the function cleaner and shorter
+            double HourlyRateInput = getValidatedDoubleInput(Answer, "Enter Hourly Rate (no commas): ");
+            double BasicSalaryInput = getValidatedDoubleInput(Answer, "Enter Basic Salary (no commas): ");
+            double SSSInput = getValidatedDoubleInput(Answer, "Enter SSS Contribution (no commas): ");
+
+            // << HOURLY RATE >>
+            SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH:mm");
+            Date TimeIn1 = TimeFormat.parse(TimeInInput1);
+            Date TimeOut1 = TimeFormat.parse(TimeOutInput1);
+            Date TimeIn2 = TimeFormat.parse(TimeInInput2);
+            Date TimeOut2 = TimeFormat.parse(TimeOutInput2);
+            Date TimeIn3 = TimeFormat.parse(TimeInInput3);
+            Date TimeOut3 = TimeFormat.parse(TimeOutInput3);
+            Date TimeIn4 = TimeFormat.parse(TimeInInput4);
+            Date TimeOut4 = TimeFormat.parse(TimeOutInput4);
+            Date TimeIn5 = TimeFormat.parse(TimeInInput5);
+            Date TimeOut5 = TimeFormat.parse(TimeOutInput5);
+           
+            // Time Computation + Hourly rate
+            // Day 1
+            double DifferenceInMilliSeconds1 = TimeOut1.getTime() - TimeIn1.getTime();
+            if (DifferenceInMilliSeconds1 < 0) {
+                DifferenceInMilliSeconds1 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours1 = DifferenceInMilliSeconds1 / (60 * 60 * 1000);
+            // Day 2
+            double DifferenceInMilliSeconds2 = TimeOut2.getTime() - TimeIn2.getTime();
+            if (DifferenceInMilliSeconds2 < 0) {
+                DifferenceInMilliSeconds2 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours2 = DifferenceInMilliSeconds2 / (60 * 60 * 1000);
+            // Day 3
+            double DifferenceInMilliSeconds3 = TimeOut3.getTime() - TimeIn3.getTime();
+            if (DifferenceInMilliSeconds3 < 0) {
+                DifferenceInMilliSeconds3 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours3 = DifferenceInMilliSeconds3 / (60 * 60 * 1000);
+            // Day 4
+            double DifferenceInMilliSeconds4 = TimeOut4.getTime() - TimeIn4.getTime();
+            if (DifferenceInMilliSeconds4 < 0) {
+                DifferenceInMilliSeconds4 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours4 = DifferenceInMilliSeconds4 / (60 * 60 * 1000);
+            // Day 5
+            double DifferenceInMilliSeconds5 = TimeOut5.getTime() - TimeIn5.getTime();
+            if (DifferenceInMilliSeconds5 < 0) {
+                DifferenceInMilliSeconds5 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours5 = DifferenceInMilliSeconds5 / (60 * 60 * 1000);
+            
+            // TOTAL COMPUTATION
+            double TotalDifferenceInHours
+               = DifferenceInHours1 + DifferenceInHours2 + DifferenceInHours3 + DifferenceInHours4 + DifferenceInHours5; 
+            double WeeklyHourlyRateSalary 
+               = TotalDifferenceInHours * HourlyRateInput; 
+            
+            // Monthly Contributions Computation
+            double PhilHealth = (BasicSalaryInput * 0.05) / 2;
+            double PhilHealthWeekly = PhilHealth / 4; 
+            double SSSWeekly = SSSInput / 4;
+            double PagIbig = 200;
+            double PagIbigWeekly = PagIbig / 4;
+            double MonthlyGovernmentDeductions = PhilHealth + SSSInput + PagIbig;
+            double WeeklyGovernmentDeductions = PhilHealthWeekly + SSSWeekly + PagIbigWeekly;
+       
+            // Print Outputs
+            String createnewline = System.getProperty("line.separator");
+            
+            System.out.println(createnewline + "[weekly Payslip]");
+            System.out.printf("Total Hours Worked: %.2f hours\n", TotalDifferenceInHours);
+            System.out.printf("Salary Based on Hours Worked: %.2f Pesos\n", WeeklyHourlyRateSalary);
+            System.out.println(createnewline + "Government Contributions:");
+            System.out.println("PhilHealth:");
+            System.out.printf("Monthly: %.2f Pesos\n", PhilHealth);
+            System.out.printf("Daily: %.2f Pesos\n", PhilHealthWeekly);
+            System.out.println(createnewline + "SSS:");
+            System.out.printf("Monthly: %.2f Pesos\n", SSSInput);
+            System.out.printf("Daily: %.2f Pesos\n", SSSWeekly);
+            System.out.println(createnewline + "Pag-Ibig:");
+            System.out.printf("Monthly: %.2f Pesos\n", PagIbig);
+            System.out.printf("Daily: %.2f Pesos\n", PagIbigWeekly);
+            System.out.println(createnewline + createnewline + "Total Government Deductions:");
+            System.out.printf("Monthly: %.2f Pesos\n", MonthlyGovernmentDeductions);
+            System.out.printf("Daily: %.2f Pesos\n", WeeklyGovernmentDeductions);
+            System.out.printf(createnewline + "Daily Net Salary: %.2f Pesos\n", (WeeklyHourlyRateSalary - WeeklyGovernmentDeductions));
+        }      
+    }
+    
+   // validate user input for single format
+    private static String getValidatedInput(Scanner Answer, String prompt, String pattern, String errorMessage) {
+        while (true) {
+            System.out.print(prompt);
+            String input = Answer.nextLine();
+            if (input.matches(pattern)) {
+                return input;
+            }
+            System.out.println(errorMessage);
+        }
+    }
+
+    // validate user input for double format
+    private static double getValidatedDoubleInput(Scanner Answer, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = Answer.nextLine();
+            if (input.matches("\\d+(\\.\\d+)?")) {
+                return Double.parseDouble(input);
+            }
+            System.out.println("<<Invalid input. Please enter a valid number without commas.>>");
+        }
+    }
+}
