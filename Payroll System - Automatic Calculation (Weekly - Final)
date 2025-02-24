@@ -30,7 +30,7 @@ public class Payroll_System_Weekly_Code {
             double BasicSalaryInput = getValidatedDoubleInput(Answer, "Enter Basic Salary (no commas): ");
             double SSSInput = getValidatedDoubleInput(Answer, "Enter SSS Contribution (no commas): ");
 
-            // << HOURLY RATE >>
+            // Time format parsing
             SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH:mm");
             Date TimeIn1 = TimeFormat.parse(TimeInInput1);
             Date TimeOut1 = TimeFormat.parse(TimeOutInput1);
@@ -70,7 +70,7 @@ public class Payroll_System_Weekly_Code {
                 DifferenceInMilliSeconds5 += 24 * 60 * 60 * 1000;} 
             double DifferenceInHours5 = DifferenceInMilliSeconds5 / (60 * 60 * 1000);
             
-            // TOTAL COMPUTATION
+            // Total Computation
             double TotalDifferenceInHours
                = DifferenceInHours1 + DifferenceInHours2 + DifferenceInHours3 + DifferenceInHours4 + DifferenceInHours5; 
             double WeeklyHourlyRateSalary 
