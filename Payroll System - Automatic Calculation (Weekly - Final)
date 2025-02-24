@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class Payroll_System_Weekly_Code {
 
-     public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput).
+      public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput).
        
        //Time in and Time out simplified code
         try (Scanner Answer = new Scanner(System.in)) {
@@ -88,23 +88,23 @@ public class Payroll_System_Weekly_Code {
             // Print Outputs
             String createnewline = System.getProperty("line.separator");
             
-            System.out.println(createnewline + "[weekly Payslip]");
+            System.out.println(createnewline + "[Weekly Payslip]");
             System.out.printf("Total Hours Worked: %.2f hours\n", TotalDifferenceInHours);
             System.out.printf("Salary Based on Hours Worked: %.2f Pesos\n", WeeklyHourlyRateSalary);
             System.out.println(createnewline + "Government Contributions:");
             System.out.println("PhilHealth:");
             System.out.printf("Monthly: %.2f Pesos\n", PhilHealth);
-            System.out.printf("Daily: %.2f Pesos\n", PhilHealthWeekly);
+            System.out.printf("Weekly: %.2f Pesos\n", PhilHealthWeekly);
             System.out.println(createnewline + "SSS:");
             System.out.printf("Monthly: %.2f Pesos\n", SSSInput);
-            System.out.printf("Daily: %.2f Pesos\n", SSSWeekly);
+            System.out.printf("Weekly: %.2f Pesos\n", SSSWeekly);
             System.out.println(createnewline + "Pag-Ibig:");
             System.out.printf("Monthly: %.2f Pesos\n", PagIbig);
-            System.out.printf("Daily: %.2f Pesos\n", PagIbigWeekly);
+            System.out.printf("Weekly: %.2f Pesos\n", PagIbigWeekly);
             System.out.println(createnewline + createnewline + "Total Government Deductions:");
             System.out.printf("Monthly: %.2f Pesos\n", MonthlyGovernmentDeductions);
-            System.out.printf("Daily: %.2f Pesos\n", WeeklyGovernmentDeductions);
-            System.out.printf(createnewline + "Daily Net Salary: %.2f Pesos\n", (WeeklyHourlyRateSalary - WeeklyGovernmentDeductions));
+            System.out.printf("Weekly: %.2f Pesos\n", WeeklyGovernmentDeductions);
+            System.out.printf(createnewline + "Weekly Net Salary: %.2f Pesos\n", (WeeklyHourlyRateSalary - WeeklyGovernmentDeductions));
         }      
     }
     
