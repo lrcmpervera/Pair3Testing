@@ -6,9 +6,9 @@ import java.util.Scanner;
  *
  * @author Grazielle
  */
-public class MotorPH {
+public class Payroll_System_Daily_Code {
 
-    public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput).
+     public static void main(String[] args) throws Exception{ // we need this "throws" for the .parse(TimeInInput) and .parse.(TimeOutInput).
        
        //Time in and Time out simplified code
         try (Scanner Answer = new Scanner(System.in)) {
@@ -27,21 +27,17 @@ public class MotorPH {
             Date TimeIn = TimeFormat.parse(TimeInInput);
             Date TimeOut = TimeFormat.parse(TimeOutInput);
             
-            // Time Computation
+            // Time Computation + Hourly rate
             double DifferenceInMilliSeconds = Math.abs(TimeOut.getTime() - TimeIn.getTime()); 
             double DifferenceInHours = (DifferenceInMilliSeconds / (60 * 60 * 1000)) % 24;
-           
             double HourlyRateSalary = DifferenceInHours * HourlyRateInput;
             
             // Monthly Contributions Computation
             double PhilHealth = (BasicSalaryInput * 0.05) / 2;
             double PhilHealthDaily = PhilHealth / 20;
-            
             double SSSDaily = SSSInput / 20;
-            
             double PagIbig = 200;
-            double PagIbigDaily = PagIbig / 20;
-            
+            double PagIbigDaily = PagIbig / 20; 
             double MonthlyGovernmentDeductions = PhilHealth + SSSInput + PagIbig;
             double DailyGovernmentDeductions = PhilHealthDaily + SSSDaily + PagIbigDaily;
             
@@ -51,28 +47,21 @@ public class MotorPH {
             System.out.println(createnewline + "[Daily Payslip]");
             System.out.printf("Total Hours Worked: %.2f hours\n", DifferenceInHours);
             System.out.printf("Salary Based on Hours Worked: %.2f Pesos\n", HourlyRateSalary);
-            
             System.out.println(createnewline + "Government Contributions:");
-            
             System.out.println("PhilHealth:");
             System.out.printf("Monthly: %.2f Pesos\n", PhilHealth);
             System.out.printf("Daily: %.2f Pesos\n", PhilHealthDaily);
-           
             System.out.println(createnewline + "SSS:");
             System.out.printf("Monthly: %.2f Pesos\n", SSSInput);
             System.out.printf("Daily: %.2f Pesos\n", SSSDaily);
-            
             System.out.println(createnewline + "Pag-Ibig:");
             System.out.printf("Monthly: %.2f Pesos\n", PagIbig);
             System.out.printf("Daily: %.2f Pesos\n", PagIbigDaily);
-            
             System.out.println(createnewline + createnewline + "Total Government Deductions:");
             System.out.printf("Monthly: %.2f Pesos\n", MonthlyGovernmentDeductions);
             System.out.printf("Daily: %.2f Pesos\n", DailyGovernmentDeductions);
-            
             System.out.printf(createnewline + "Daily Net Salary: %.2f Pesos\n", (HourlyRateSalary - DailyGovernmentDeductions));
-        }
-       
+        }      
     }
     
    // validate user input for single format
