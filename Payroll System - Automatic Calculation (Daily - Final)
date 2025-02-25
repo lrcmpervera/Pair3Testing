@@ -28,8 +28,10 @@ public class Payroll_System_Daily_Code {
             Date TimeOut = TimeFormat.parse(TimeOutInput);
             
             // Time Computation + Hourly rate
-            double DifferenceInMilliSeconds = Math.abs(TimeOut.getTime() - TimeIn.getTime()); 
-            double DifferenceInHours = (DifferenceInMilliSeconds / (60 * 60 * 1000)) % 24;
+            double DifferenceInMilliSeconds1 = TimeOut.getTime() - TimeIn.getTime();
+            if (DifferenceInMilliSeconds1 < 0) {
+                DifferenceInMilliSeconds1 += 24 * 60 * 60 * 1000;} 
+            double DifferenceInHours = DifferenceInMilliSeconds1 / (60 * 60 * 1000);
             double HourlyRateSalary = DifferenceInHours * HourlyRateInput;
             
             // Monthly Contributions Computation
