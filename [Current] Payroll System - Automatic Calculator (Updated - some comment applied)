@@ -5,7 +5,7 @@ import java.util.Scanner;
  */
 public class Experimental_Purposed {
 
-    public static void main(String[] args) { 
+     public static void main(String[] args) { 
        
        //I used Red's way but added the string "<<Invalid input. Please follow HH:MM format.>>" after timepattern because otherwise it doesn't work--netbeans says the length doesn't match.
         try (Scanner scanner = new Scanner(System.in)) {
@@ -37,13 +37,13 @@ public class Experimental_Purposed {
             int timeOutMinutes = Integer.parseInt(timeOutInput.split(":")[1]);
             
             // this one CM! if you can just do your magic like how you did before enabling past-midnight time-outs please!
-            double totalHoursWorked = (timeOutHours - timeInHours) + ((timeOutMinutes - timeInMinutes) / 60.0);
+            double totalHoursWorked = ((timeOutHours - timeInHours) + ((timeOutMinutes - timeInMinutes) / 60.0)) - 1; // "-1" is the 1 hour lunch break.
          
             double hourlyRate = getValidatedDouble(scanner, "Enter Hourly Rate (no commas): ");
             double basicSalary = getValidatedDouble(scanner, "Enter Basic Salary (no commas): ");
             double sssContribution = getValidatedDouble(scanner, "Enter SSS Contribution (no commas): ");
 
-            double hourlyRateSalary = totalHoursWorked * hourlyRate;
+            double hourlyRateSalary = (totalHoursWorked * hourlyRate) - hourlyRate; // "- hourlyRate" is for the lunch break included in the totalHoursWorked.
             
             double PhilHealth = (basicSalary * 0.05) / 2;
             double PhilHealthDaily = PhilHealth / 20;
